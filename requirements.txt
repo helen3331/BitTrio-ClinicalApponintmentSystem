@@ -3,4 +3,4 @@ djangorestframework
 mysqlclient
 python-decouple
 djangorestframework-simplejwt
-opeanai
+openai

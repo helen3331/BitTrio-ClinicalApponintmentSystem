@@ -22,9 +22,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 
     #Sonradan eklenenler
-    path('api/ai/', include('ai.urls')),
-    path('api/accounts/', include('accounts.urls')),
-    path('api/clinics/', include('clinics.urls')),
-    path('api/doctors/', include('doctors.urls')),
-    path('api/appointments/', include('appointments.urls')),
+    path('api/ai/', include('app.ai.urls')),
+    path('api/accounts/', include('app.accounts.urls')),
+    path('api/clinics/', include('app.clinics.urls')),
+    path('api/doctors/', include('app.doctors.urls')),
+    path('api/appointments/', include('app.appointments.urls')),
 ]
