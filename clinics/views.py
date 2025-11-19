@@ -5,7 +5,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Clinic, Symptom
-from .serializers import ClinicSerializer, SymptomSerializer
+from .serializers import ClinicSerializer, ClinicDetailSerializer
 
 class ClinicCreateView(APIView):
     def post(self, request):
@@ -33,12 +33,18 @@ class SymptomCreateView(APIView):
         symptom = Symptom.objects.create(clinic_id=clinic, description=description)
         return Response({"id": symptom.id, "description": symptom.description})
 
-class SymptomListView(APIView):
-    def get(self, request, clinic_id):
-        symptoms = Symptom.objects.filter(clinic_id=clinic_id)
-        serializer = SymptomSerializer(symptoms, many=True)
-        return Response(serializer.data)
+# class SymptomListView(APIView):
+#     def get(self, request, clinic_id):
+#         symptoms = Symptom.objects.filter(clinic_id=clinic_id)
+#         serializer = SymptomSerializer(symptoms, many=True)
+#         return Response(serializer.data)
 
+class ClinicSymptomsView(APIView):
+    def get(self, request, clinic_id):
+        clinic = Clinic.objects.get(pk=clinic_id)
+        serializer = ClinicDetailSerializer(clinic)
+        return Response(serializer.data)
+    
 class ClinicIDFromNameView(APIView):
     def post(self, request):
         name = request.data.get("name", "").strip()

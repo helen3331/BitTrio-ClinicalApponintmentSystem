@@ -1,6 +1,7 @@
 django
 djangorestframework
-mysqlclient
+mysql-connector-python
 python-decouple
 djangorestframework-simplejwt
-opeanai
+openai
+django-extensions

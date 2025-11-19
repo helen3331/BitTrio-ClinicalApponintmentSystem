@@ -1,37 +1,4 @@
-export function Login(email, password) {
-  // Sadece demo için:
-  if (email === "patient@test.com") {
-    return Promise.resolve({
-      token: "fake-token/  access token",
-      role: "patient",
-      name: "Test Patient",
-    });
-  }
-  if (email === "doctor@test.com") {
-    return Promise.resolve({
-      token: "fake-token",
-      role: "doctor",
-      name: "Dr. Test",
-    });
-  }
-  if (email === "admin@test.com") {
-    return Promise.resolve({
-      token: "fake-token",
-      role: "admin",
-      name: "Admin User",
-    });
-  }
-  return Promise.reject(new Error("Invalid credentials"));
-}
-const mockPolyclinics = [
-  { id: 1, name: "Kardiyoloji" },
-  { id: 2, name: "Kulak Burun Boğaz" },
-  { id: 3, name: "Dermatoloji" },
-];
 
-export function getPolyclinicsMock() {
-  return Promise.resolve(mockPolyclinics);
-}
 // src/api/api.js içine ekle
 const mockPolySymptoms = {
   1: {
@@ -81,16 +48,7 @@ export function mockAiRecommendPolyclinics(symptomText) {
   return Promise.resolve(recs);
 }
 // src/api/api.js içine ekle
-const mockDoctorsByPoly = {
-  1: [
-    { id: 101, name: "Dr. Kardiyo 1" },
-    { id: 102, name: "Dr. Kardiyo 2" },
-  ],
-  2: [
-    { id: 201, name: "Dr. KBB 1" },
-    { id: 202, name: "Dr. KBB 2" },
-  ],
-};
+
 
 const mockSlotsByDoctor = {
   101: [
@@ -102,9 +60,6 @@ const mockSlotsByDoctor = {
   ],
 };
 
-export function getDoctorsByPolyclinicMock(polyId) {
-  return Promise.resolve(mockDoctorsByPoly[polyId] || []);
-}
 
 export function getSlotsByDoctorMock(doctorId) {
   return Promise.resolve(mockSlotsByDoctor[doctorId] || []);
@@ -132,4 +87,27 @@ export function mockRegister(data) {
       role: 'patient' // Yeni kaydolan herkes 'patient' olsun
     }
   });
+}
+// src/api/api.js dosyasının en altına ekle:
+
+export function getPatientAppointmentsMock() {
+  // Sanki veritabanından hastanın eski randevuları geliyormuş gibi:
+  return Promise.resolve([
+    { 
+      id: 1, 
+      polyclinic: "Kardiyoloji", 
+      doctor: "Dr. Kardiyo 1", 
+      date: "2025-11-20", 
+      time: "10:00",
+      status: "Aktif" 
+    },
+    { 
+      id: 2, 
+      polyclinic: "Kulak Burun Boğaz", 
+      doctor: "Dr. KBB 2", 
+      date: "2025-12-05", 
+      time: "14:30",
+      status: "Aktif" 
+    }
+  ]);
 }

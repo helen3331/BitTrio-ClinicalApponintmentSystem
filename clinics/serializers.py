@@ -6,7 +6,16 @@ class ClinicSerializer(serializers.ModelSerializer):
         model = Clinic
         fields = ('id', 'name')
 
-class SymptomSerializer(serializers.ModelSerializer):
+# class SymptomSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Symptom
+#         fields = ('id', 'description')
+class ClinicDetailSerializer(serializers.ModelSerializer):
+    symptoms = serializers.SerializerMethodField()
+
     class Meta:
-        model = Symptom
-        fields = ('id', 'description')
+        model = Clinic
+        fields = ('id', 'name', 'symptoms')
+
+    def get_symptoms(self, obj):
+        return [s.description for s in obj.symptoms.all()]

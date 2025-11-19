@@ -1,7 +1,7 @@
 // src/pages/CheckSymptomsPage.jsx
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getPolyclinicSymptomsMock } from "../api/api";
+import {getPolyclinicSymptoms } from "../api/symptomscheck";
 
 export default function CheckSymptomsPage() {
   const { id } = useParams();
@@ -9,7 +9,7 @@ export default function CheckSymptomsPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPolyclinicSymptomsMock(Number(id)).then(setPoly);
+    getPolyclinicSymptoms((id)).then(setPoly);
   }, [id]);
 
   if (!poly) return <p>Yükleniyor...</p>;

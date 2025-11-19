@@ -1,14 +1,14 @@
 // src/pages/PolyclinicListPage.jsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getPolyclinicsMock } from "../api/api";
+import { getClinics } from "../api/clinicslist";
 
 export default function PolyclinicListPage() {
   const [polyclinics, setPolyclinics] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPolyclinicsMock().then(setPolyclinics);
+    getClinics().then(setPolyclinics);
   }, []);
 
   return (
@@ -17,7 +17,7 @@ export default function PolyclinicListPage() {
       <ul>
         {polyclinics.map((p) => (
           <li key={p.id} style={{ marginBottom: 10 }}>
-            <button onClick={() => navigate(`/polyclinics/${p.id}/check`)}>
+            <button onClick={() => navigate(`/polyclinics/${p.id}/check/`)}>
               {p.name}
             </button>
           </li>
