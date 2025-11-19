@@ -1,0 +1,26 @@
+id,username,email,full_name,role,password
+26,ahmet.yilmaz,ahmet.yilmaz@hospital.com,Ahmet Yılmaz,doctor,doctor123
+27,aylin.kara,aylin.kara@hospital.com,Aylin Kara,doctor,doctor123
+3,mehmet.sahin,mehmet.sahin@hospital.com,Mehmet Şahin,doctor,doctor123
+4,eda.yuce,eda.yuce@hospital.com,Eda Yüce,doctor,doctor123
+5,ali.dogan,ali.dogan@hospital.com,Ali Doğan,doctor,doctor123
+6,nazli.cetin,nazli.cetin@hospital.com,Nazlı Çetin,doctor,doctor123
+7,hasan.erdem,hasan.erdem@hospital.com,Hasan Erdem,doctor,doctor123
+8,ipek.aksoy,ipek.aksoy@hospital.com,İpek Aksoy,doctor,doctor123
+9,baran.kurt,baran.kurt@hospital.com,Baran Kurt,doctor,doctor123
+10,buse.esen,buse.esen@hospital.com,Buse Esen,doctor,doctor123
+11,selim.ari,selim.ari@hospital.com,Selim Arı,doctor,doctor123
+12,elif.polat,elif.polat@hospital.com,Elif Polat,doctor,doctor123
+13,onur.keskin,onur.keskin@hospital.com,Onur Keskin,doctor,doctor123
+14,merve.acar,merve.acar@hospital.com,Merve Acar,doctor,doctor123
+15,levent.bilgin,levent.bilgin@hospital.com,Levent Bilgin,doctor,doctor123
+16,burcu.yildiz,burcu.yildiz@hospital.com,Burcu Yıldız,doctor,doctor123
+17,serkan.uzun,serkan.uzun@hospital.com,Serkan Uzun,doctor,doctor123
+18,ada.celik,ada.celik@hospital.com,Ada Çelik,doctor,doctor123
+19,okan.simsek,okan.simsek@hospital.com,Okan Şimşek,doctor,doctor123
+20,ceren.altun,ceren.altun@hospital.com,Ceren Altun,doctor,doctor123
+21,hakan.ture,hakan.ture@hospital.com,Hakan Türe,doctor,doctor123
+22,gulsah.tas,gulsah.tas@hospital.com,Gülşah Taş,doctor,doctor123
+23,murat.aydin,murat.aydin@hospital.com,Murat Aydın,doctor,doctor123
+24,sena.topal,sena.topal@hospital.com,Sena Topal,doctor,doctor123
+25,arda.koc,arda.koc@hospital.com,Arda Koç,doctor,doctor123
