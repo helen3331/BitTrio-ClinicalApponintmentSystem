@@ -3,5 +3,7 @@ djangorestframework
 mysql-connector-python
 python-decouple
 djangorestframework-simplejwt
+<<<<<<< HEAD
 openai
 django-extensions
+>>>>>>> c71b3c716cad304c6ff9400bfc1501afe0189c85
