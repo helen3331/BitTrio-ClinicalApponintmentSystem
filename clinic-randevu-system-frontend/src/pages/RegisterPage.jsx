@@ -47,7 +47,7 @@ export default function RegisterPage() {
           <input value={isim} onChange={(e) => setIsim(e.target.value)} type="text" style={{ width: "100%", padding: "8px" }} />
         </div>
         <div style={{ marginBottom: "10px" }}>
-          <label style={{ display: "block", marginBottom: "5px" }}>Kullanıcı Adı / Soyisim</label>
+          <label style={{ display: "block", marginBottom: "5px" }}>Kullanıcı Adı</label>
           <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" style={{ width: "100%", padding: "8px" }} />
         </div>
         <div style={{ marginBottom: "10px" }}>
