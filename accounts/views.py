@@ -38,9 +38,3 @@ class LoginView(APIView):
             "role": user.role,
             "full_name": user.full_name
         })
-    
-# accounts/views.py
-from django.shortcuts import render
-
-def no_permission(request):
-    return render(request, "accounts/no_permission.html", status=403)

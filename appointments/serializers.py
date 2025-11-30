@@ -1,26 +1,40 @@
 from rest_framework import serializers
 from .models import Appointment
-from doctors.serializers import DoctorSerializer, ScheduleSerializer
-from accounts.serializers import UserSerializer
+from doctors.models import Schedule
 
 class AppointmentSerializer(serializers.ModelSerializer):
-    patient = UserSerializer(read_only=True)
-    doctor = DoctorSerializer(read_only=True)
-    schedule = ScheduleSerializer(read_only=True)
+    patient_name = serializers.CharField(source="patient.full_name", read_only=True)
+    doctor_name = serializers.CharField(source="doctor.user.full_name", read_only=True)
+    clinic_name = serializers.CharField(source="doctor.clinic.name", read_only=True)
+    date = serializers.DateField(source="schedule.date", read_only=True)
+    time = serializers.TimeField(source="schedule.time", read_only=True)
 
     class Meta:
         model = Appointment
-        fields = ('id', 'patient', 'doctor', 'schedule','created_at')
+        fields = (
+            "id",
+            "patient_name",
+            "doctor_name",
+            "clinic_name",
+            "date",
+            "time",
+            "status",
+            "created_at",
+        )
 
 class DoctorAppointmentSerializer(serializers.ModelSerializer):
     patient_name = serializers.CharField(source="patient.full_name", read_only=True)
     clinic_name = serializers.CharField(source="doctor.clinic.name", read_only=True)
     doctor_name = serializers.CharField(source="doctor.user.full_name", read_only=True)
-
+    appointment_time = serializers.SerializerMethodField()
+    
+    def get_appointment_time(self, obj):
+        return f"{obj.schedule.date} {obj.schedule.time}"
+    
     class Meta:
         model = Appointment
         fields = (
-            "appointment_id",
+            "id",
             "patient_name",
             "clinic_name",
             "doctor_name",
@@ -48,3 +62,8 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
             doctor=validated_data["doctor"],
             schedule=schedule
         )
+    
+class ScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Schedule
+        fields = "__all__"

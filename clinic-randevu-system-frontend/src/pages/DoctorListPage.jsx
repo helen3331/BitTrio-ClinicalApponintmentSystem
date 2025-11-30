@@ -1,24 +1,30 @@
 // src/pages/DoctorListPage.jsx
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { API_URL } from "../api/config";
+import { getDoctorsByClinic } from "../api/clinicslist";
+
 
 export default function DoctorListPage() {
   const { polyId } = useParams(); 
   const [doctors, setDoctors] = useState([]);
   const navigate = useNavigate();
+  const { state } = useLocation();
+
 
   useEffect(() => {
-    if (polyId) {
-      fetch(`${API_URL}/doctors/${polyId}/`)
-        .then((res) => {
-           if (!res.ok) throw new Error("API Hatası");
-           return res.json();
-        })
-        .then((data) => setDoctors(data))
-        .catch(err => console.error("Hata:", err));
-    }
+    getDoctorsByClinic(polyId).then(setDoctors);
   }, [polyId]);
+
+  const selectDoctor = (d) => {
+    navigate(`/select-slot/${d.id}`, {
+      state: {
+        ...state,
+        doctorId: d.id,
+        doctorName: d.full_name,
+      },
+    });
+  };
 
   return (
     <div style={{ maxWidth: 600, margin: "20px auto" }}>

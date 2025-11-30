@@ -46,9 +46,15 @@ class ClinicSymptomsView(APIView):
         return Response(serializer.data)
     
 class ClinicIDFromNameView(APIView):
+    def get(self, request):
+        name = request.query_params.get("name", "").strip()
+        return self._find_clinic(name)
+
     def post(self, request):
         name = request.data.get("name", "").strip()
+        return self._find_clinic(name)
 
+    def _find_clinic(self, name):
         if not name:
             return Response({"error": "name field is required"}, status=400)
 

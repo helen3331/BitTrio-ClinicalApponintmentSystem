@@ -1,46 +1,37 @@
 // src/pages/PatientDashboardPage.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getPatientAppointmentsMock } from '../api/api'; // Mock fonksiyonu import ettik
+import { getFullName } from "../utils/auth";
+import { getMyAppointments } from "../api/appointments";
 
-export default function PatientDashboardPage() {
+export default function PatientDashboard() {
   const navigate = useNavigate();
+  const fullName = getFullName() || "Kullanıcı";
+
   const [appointments, setAppointments] = useState([]);
-  const [user, setUser] = useState({ name: '', role: '' });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1. LocalStorage'dan kullanıcı bilgilerini al
-    const storedName = localStorage.getItem('name');
-    const storedRole = localStorage.getItem('role');
-    
-    // Eğer giriş yapılmamışsa login'e at (Güvenlik)
-    if (!storedRole || storedRole !== 'patient') {
-      navigate('/login');
-      return;
-    }
-
-    setUser({
-      name: storedName || 'İsimsiz Hasta',
-      role: storedRole
-    });
-
-    // 2. Mock randevuları getir
-    getPatientAppointmentsMock().then(data => {
-      setAppointments(data);
-    });
-  }, [navigate]);
+    getMyAppointments()
+      .then((data) => {
+        setAppointments(data);
+      })
+      .catch((err) => console.error("Appointment error:", err))
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
-    <div style={{ 
-      height: '80vh',       // Sayfa yüksekliği (Navbar hariç alan gibi düşünelim)
-      position: 'relative', // İçindeki absolute elemanlar buna göre hizalanacak
-      padding: '20px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center'  // Yatayda ortala
-    }}>
-
-      {/* --- SOL ÜST KÖŞE: Kullanıcı Bilgileri --- */}
+    <div
+      style={{
+        padding: "30px",
+        maxWidth: "800px",
+        margin: "0 auto",
+        display: "flex",
+        flexDirection: "column",
+        gap: "30px",
+      }}
+    >
+      {/* ÜST BİLGİ - Kullanıcı */}
       <div style={{ 
         position: 'absolute', 
         top: '20px', 
@@ -52,14 +43,12 @@ export default function PatientDashboardPage() {
         textAlign: 'left',
         boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
       }}>
-        <h4 style={{ margin: 0, color: '#333' }}>{user.name}</h4>
-        <small style={{ color: '#666' }}>Rol: {user.role}</small> <br/>
-        {/* Kullanıcı adını ayrıca tutuyorsan buraya ekleyebilirsin */}
-        <small style={{ color: '#666' }}>Kullanıcı ID: #12345</small>
+        <h4 style={{ margin: 0, color: '#333' }}>{fullName}</h4>        <p style={{ margin: "5px 0 0 0", color: "#666" }}>
+          Hasta Profil Sayfası
+        </p>
       </div>
 
-
-      {/* --- ORTA ÜST: Randevu Al Butonu --- */}
+      {/* RANDEVU AL BUTONU */}
       <div style={{ marginTop: '100px', textAlign: 'center' }}>
         <h2 style={{ marginBottom: '20px' }}>Yeni bir randevu mu planlıyorsunuz?</h2>
         <button 
@@ -83,56 +72,72 @@ export default function PatientDashboardPage() {
         </button>
       </div>
 
+      {/* RANDEVU LİSTESİ */}
+      <div>
+        <h3 style={{ marginBottom: "15px", color: "#333" }}>Randevularım</h3>
 
-      {/* --- ALT KISIM: Randevu Listesi --- */}
-      {/* marginTop: 'auto' diyerek bu kutuyu en alta itiyoruz */}
-      <div style={{ 
-        marginTop: 'auto', 
-        width: '100%', 
-        maxWidth: '800px',
-        backgroundColor: '#fff',
-        borderTop: '2px solid #eee',
-        paddingTop: '20px'
-      }}>
-        <h3 style={{ textAlign: 'center', color: '#444' }}>Randevularım</h3>
-        
-        {appointments.length === 0 ? (
-          <p style={{ textAlign: 'center' }}>Henüz bir randevunuz bulunmamaktadır.</p>
-        ) : (
-          <div style={{ display: 'grid', gap: '10px' }}>
-            {appointments.map((app) => (
-              <div key={app.id} style={{ 
-                border: '1px solid #ddd', 
-                padding: '15px', 
-                borderRadius: '8px', 
-                display: 'flex', 
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                backgroundColor: '#fafafa'
-              }}>
-                <div>
-                  <strong style={{ fontSize: '1.1em', color: '#007bff' }}>{app.polyclinic}</strong>
-                  <div style={{ color: '#555' }}>{app.doctor}</div>
-                </div>
-                <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontWeight: 'bold' }}>{app.date}</div>
-                  <div style={{ color: '#888' }}>{app.time}</div>
-                  <span style={{ 
-                    fontSize: '0.8em', 
-                    padding: '4px 8px', 
-                    backgroundColor: '#d4edda', 
-                    color: '#155724', 
-                    borderRadius: '12px' 
-                  }}>
-                    {app.status}
-                  </span>
-                </div>
-              </div>
-            ))}
+        {loading ? (
+          <div
+            style={{
+              padding: "20px",
+              backgroundColor: "#fafafa",
+              borderRadius: "10px",
+              border: "1px solid #eee",
+              textAlign: "center",
+              color: "#777",
+            }}
+          >
+            Yükleniyor...
           </div>
+        ) : appointments.length === 0 ? (
+          <div
+            style={{
+              padding: "20px",
+              backgroundColor: "#fafafa",
+              borderRadius: "10px",
+              border: "1px solid #eee",
+              textAlign: "center",
+              color: "#777",
+            }}
+          >
+            Henüz randevunuz bulunmuyor.
+          </div>
+        ) : (
+          appointments.map((appt) => (
+            <div
+              key={appt.id}
+              style={{
+                padding: "20px",
+                backgroundColor: "white",
+                borderRadius: "10px",
+                border: "1px solid #ddd",
+                marginBottom: "15px",
+                boxShadow: "0 2px 5px rgba(0,0,0,0.05)",
+              }}
+            >
+              <h4 style={{ margin: 0, color: "#333" }}>{appt.doctor_name}</h4>
+              <p style={{ margin: "5px 0", color: "#555" }}>
+                {appt.date} • {appt.time}
+              </p>
+              <p
+                style={{
+                  margin: 0,
+                  marginTop: "10px",
+                  padding: "6px 10px",
+                  display: "inline-block",
+                  borderRadius: "6px",
+                  backgroundColor:
+                    appt.status === "scheduled" ? "#e3ffe3" : "#ffe3e3",
+                  color: appt.status === "scheduled" ? "#128212" : "#b60000",
+                  fontSize: "14px",
+                }}
+              >
+                {appt.status === "scheduled" ? "Planlandı" : "İptal Edildi"}
+              </p>
+            </div>
+          ))
         )}
       </div>
-
     </div>
   );
 }

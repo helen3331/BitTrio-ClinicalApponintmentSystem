@@ -26,7 +26,7 @@ SLOT_TIMES = [
 ]
 
 # KAÇ GÜN İÇİN OLUŞTURULACAK
-DAY_COUNT = 5
+WORKING_DAY_COUNT = 5
 
 def run():
     doctors = Doctor.objects.all()
@@ -40,20 +40,31 @@ def run():
     for doctor in doctors:
         print(f"👨‍⚕️ Doktor: {doctor.user.full_name} ({doctor.title})")
 
-        for day in range(DAY_COUNT):
-            slot_date = date.today() + timedelta(days=day)
+        working_days_created = 0
+        current_date = date.today()
 
-            for slot_time in SLOT_TIMES:
-                Schedule.objects.create(
-                    doctor=doctor,
-                    date=slot_date,
-                    time=slot_time,
-                    is_booked=False
-                )
+        # WORKING_DAY_COUNT kadar iş günü bulana kadar ilerle
+        while working_days_created < WORKING_DAY_COUNT:
+            # weekday() -> 0: Pazartesi, 4: Cuma, 5-6: Hafta sonu
+            if current_date.weekday() < 5:  # Pazartesi–Cuma
+                for slot_time in SLOT_TIMES:
+                    # Aynı slotu tekrar tekrar oluşturmamak için get_or_create
+                    schedule, created = Schedule.objects.get_or_create(
+                        doctor=doctor,
+                        date=current_date,
+                        time=slot_time,
+                        defaults={"is_booked": False},
+                    )
+                    if created:
+                        print(f"   ➤ Slot eklendi: {current_date} {slot_time}")
+                    else:
+                        print(f"   ✔ Slot zaten var: {current_date} {slot_time}")
 
-                print(f"   ➤ Slot eklendi: {slot_date} {slot_time}")
+                working_days_created += 1
 
-        print("✔ Doktor için tüm slotlar oluşturuldu.\n")
+            current_date += timedelta(days=1)
+
+        print("✔ Doktor için tüm hafta içi slotlar oluşturuldu.\n")
 
     print("\n🎉 TÜM SLOTLAR BAŞARIYLA OLUŞTURULDU ESRA! 💙🔥")
 
