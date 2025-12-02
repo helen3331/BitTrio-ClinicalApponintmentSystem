@@ -5,7 +5,11 @@ import PatientAppointments from "./pages/PatientAppointments";
 import PrivateRoute from "./routes/PrivateRoute";
 
 
+<<<<<<< Updated upstream
 import Navbar from "./components/Navbar";
+=======
+// import Navbar from "./components/Navbar";
+>>>>>>> Stashed changes
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminDoctorCreatePage from "./pages/AdminDoctorCreatePage";
 import AdminDoctorEditPage from "./pages/AdminDoctorEditPage";
@@ -25,7 +29,7 @@ import SymptomInputPage from "./pages/SymptomInputPage";
 function App() {
   return (
     <Router>
-      <Navbar />
+      {/* <Navbar /> */}
       <Routes>
         {/* YENİ EKLENEN SATIR: Ana sayfada Login'i göster */}
         <Route path="/" element={<LoginPage />} />
