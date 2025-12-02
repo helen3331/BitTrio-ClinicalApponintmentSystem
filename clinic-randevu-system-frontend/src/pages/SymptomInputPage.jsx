@@ -22,36 +22,15 @@ export default function SymptomInputPage() {
       });
 
       let aiData = res.data.result;
-
-<<<<<<< Updated upstream
-      // metinse JSON parse etmeyi dene
-      if (typeof aiData === "string") {
-        try {
-          aiData = JSON.parse(aiData);
-        } catch {
-          aiData = { clinic: ["Bilinmiyor"], reason: aiData };
-        }
-      }
-
-      if (!aiData.clinic) {
-        aiData.clinic = ["Bilinmiyor"];
-      }
-      // tek klinik -> array'e çevir
-      if (!Array.isArray(aiData.clinic)) {
-        aiData.clinic = [aiData.clinic];
-=======
+      
       if (!aiData.clinics || !Array.isArray(aiData.clinics)) {
         throw new Error("Beklenmeyen AI formatı");
->>>>>>> Stashed changes
       }
 
       setResult(aiData);
 
     } catch (err) {
-<<<<<<< Updated upstream
-=======
       console.log(err);
->>>>>>> Stashed changes
       setError("AI analizinde hata oluştu.");
     } finally {
       setLoading(false);
@@ -98,20 +77,6 @@ export default function SymptomInputPage() {
       {error && <p style={errorStyle}>{error}</p>}
 
       {/* AI Sonuç Kartı */}
-<<<<<<< Updated upstream
-      {result?.clinic?.length > 0 && (
-        <div style={resultBox}>
-          <h2>AI Önerisi</h2>
-          <p style={{ marginTop: "10px" }}>{result.reason}</p>
-
-          <h3 style={{ marginTop: "20px" }}>Uygun Olan Klinikler:</h3>
-
-          <div style={clinicList}>
-            {result.clinic.map((clinicName, index) => (
-              <div key={index} style={clinicCard}>
-                <p style={{ fontSize: "18px", fontWeight: "600" }}>
-                  {clinicName}
-=======
       {result?.clinics && Array.isArray(result.clinics) && result.clinics.length > 0 && (
         <div style={resultBox}>
           <h2>AI Önerisi</h2>
@@ -126,16 +91,11 @@ export default function SymptomInputPage() {
 
                 <p style={{ fontSize: "14px", marginTop: "5px" }}>
                   {item.reason}
->>>>>>> Stashed changes
                 </p>
 
                 <button
                   style={selectBtn}
-<<<<<<< Updated upstream
-                  onClick={() => handleSelectClinic(clinicName)}
-=======
                   onClick={() => handleSelectClinic(item.name)}
->>>>>>> Stashed changes
                 >
                   Bu Klinikten Randevu Al
                 </button>
